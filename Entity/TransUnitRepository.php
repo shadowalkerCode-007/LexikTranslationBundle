@@ -167,6 +167,37 @@ class TransUnitRepository extends EntityRepository
         return $translations;
     }
 
+    public function findTranslationsUnitByFilterColumn(string $column, string $value, string $columnType, $rows = 20, $page = 1)
+    {
+        $qb = $this->createQueryBuilder('tu');
+
+        if ($columnType === 'locale') {
+            $subQb = $this->createQueryBuilder('sub_tu');
+
+            $subQuery = $subQb->select('sub_tu.id')
+                ->leftJoin('sub_tu.translations', 'te')
+                ->andWhere('te.content like :filterValue')
+                ->andWhere('te.locale = :locale')
+                ->getQuery()
+                ->getDQL();
+
+            $qb->select('tu, te_all')
+                ->leftJoin('tu.translations', 'te_all')
+                ->andWhere($qb->expr()->in('tu.id', $subQuery))
+                ->setParameter('filterValue', $value.'%')
+                ->setParameter('locale', $column);
+        } else {
+            $qb->select('tu')
+                ->andWhere('tu.'. $column .' like :filterValue')
+                ->setParameter('filterValue', $value.'%');
+        }
+
+        $qb->setFirstResult($rows * ($page - 1))
+            ->setMaxResults($rows);
+
+        return $qb->getQuery()->getResult();
+    }
+
     /**
      * Add conditions according to given filters.
      */
