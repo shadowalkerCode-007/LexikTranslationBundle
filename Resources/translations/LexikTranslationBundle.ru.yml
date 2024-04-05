@@ -24,6 +24,7 @@ translations:
     data_source:         "Data source"
     latest_profiles:     "Latest profiles"
     profile:             "Profile"
+    element.delete.confirm: "Подтвердить удаление элемента?"
 
 overview:
     page_title: "Overview"

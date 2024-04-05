@@ -24,6 +24,7 @@ translations:
     data_source:         "Databron"
     latest_profiles:     "Laatste profiel"
     profile:             "Profiel"
+    element.delete.confirm: "Bevestig verwijderen van element ?"
 
 overview:
     page_title: "Overzicht"

@@ -25,17 +25,17 @@
                 <table class="table table-bordered table-striped">
                     <tr>
                         <th id='id-header' class="text-center sortable col-_id" onclick="sortColumn('id', 'asc')" style="cursor: pointer;">
-                            {% trans %} id {% endtrans %}
+                            Id
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </th>
 
                         <th id='domain-header' class="text-center sortable col-_domain" onclick="sortColumn('domain', 'asc')" style="cursor: pointer;">
-                            {% trans %} domain {% endtrans %}
+                            {% trans %} translations.domain {% endtrans %}
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </th>
 
                         <th id='key-header' class="text-center sortable col-_key" onclick="sortColumn('key', 'asc')" style="cursor: pointer;">
-                            {% trans %} key {% endtrans %}
+                            {% trans %} translations.key {% endtrans %}
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </th>
 
@@ -193,7 +193,7 @@
 
         function deleteEntry(lexikTranslationId, locale, column)
         {
-            if (confirm('{{ ('element.delete.confirm')|trans|escape('js') }}')) {
+            if (confirm('{{ ('translations.element.delete.confirm')|trans|escape('js') }}')) {
                 saveUpdatedLexikTranslations(lexikTranslationId, locale, '', column, false);
             }
         }

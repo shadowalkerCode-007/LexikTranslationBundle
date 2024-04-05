@@ -24,6 +24,7 @@ translations:
     data_source:         "Zdroj údajov"
     latest_profiles:     "Posledné profily"
     profile:             "Profil"
+    element.delete.confirm: "Potvrdiť vymazanie prvku?"
 
 overview:
     page_title: "Prehľad"
