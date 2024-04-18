@@ -167,7 +167,7 @@ class TranslationController extends AbstractController
         $columnType = $request->request->get('columnType');
 
         if ($filterValue !== '') {
-            $lexikUnitTranslations = $this->entityManager->getRepository(TransUnit::class)->findTranslationsUnitByFilterColumn($column, $filterValue, $columnType);
+            $lexikUnitTranslations = $this->entityManager->getRepository(TransUnit::class)->findTranslationsUnitByFilterColumn($column, $filterValue, $columnType, $this->getManagedLocales());
         } else {
             $lexikUnitTranslations = $this->entityManager->getRepository(TransUnit::class)->getTransUnitList($this->getManagedLocales());
         }

@@ -167,7 +167,7 @@ class TransUnitRepository extends EntityRepository
         return $translations;
     }
 
-    public function findTranslationsUnitByFilterColumn(string $column, string $value, string $columnType, $rows = 20, $page = 1)
+    public function findTranslationsUnitByFilterColumn(string $column, string $value, string $columnType, array $locales = null, $rows = 20, $page = 1)
     {
         $qb = $this->createQueryBuilder('tu');
 
@@ -183,6 +183,7 @@ class TransUnitRepository extends EntityRepository
 
             $qb->select('tu, te_all')
                 ->leftJoin('tu.translations', 'te_all')
+                ->andWhere($qb->expr()->in('te_all.locale', $locales))
                 ->andWhere($qb->expr()->in('tu.id', $subQuery))
                 ->setParameter('filterValue', $value.'%')
                 ->setParameter('locale', $column);
