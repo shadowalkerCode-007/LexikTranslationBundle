@@ -122,66 +122,6 @@ class TranslationController extends AbstractController
         return $this->render('@LexikTranslation/Translation/new.html.twig', ['layout' => $this->getParameter('lexik_translation.base_layout'), 'form'   => $form->createView()]);
     }
 
-    public function loadTranslationGrid(Request $request): Response
-    {
-        $sortOrder = $request->request->get('sort');
-        $columnToOrderBy = $request->request->get('columnToOrderBy');
-        $page = $request->request->has('page') ? $request->request->get('page') : null;
-
-        $translations = $this->entityManager->getRepository(TransUnit::class)->getTransUnitList($this->getManagedLocales(), 20, $page, array('sidx' => $columnToOrderBy, 'sord' => $sortOrder));
-
-        return $this->render('@LexikTranslation/Translation/_ngGrid.html.twig', [
-            'locales' => $this->getManagedLocales(),
-            'lexikTranslations' => $translations,
-            'page' => $page
-        ]);
-    }
-
-    public function saveUpdates(Request $request): JsonResponse
-    {
-        $transUnitId = $request->request->get('id');
-        $locale = $request->request->get('locale');
-        $newLexikTranslationValue = $request->request->get('newvalue');
-        $columnToUpdate = $request->request->get('column');
-
-        $lexikUnitTranslation = $this->entityManager->getRepository(Translation::class)->findOneBy(['transUnit' => $transUnitId, 'locale' => $locale]);
-
-        if ($columnToUpdate === 'translation') {
-            $lexikUnitTranslation->setContent($newLexikTranslationValue);
-        } else {
-            $lexikUnit = $this->entityManager->getRepository(TransUnit::class)->findOneBy(['id' => $transUnitId]);
-            $this->entityManager->remove($lexikUnit);
-        }
-
-        $this->entityManager->flush();
-
-        return new JsonResponse(array(
-            'type' => 'success'
-        ));
-    }
-
-    public function filterLexikTranslations(Request $request): Response
-    {
-        $column = $request->request->get('column');
-        $filterValue = $request->request->get('filterValue');
-        $columnType = $request->request->get('columnType');
-
-        if ($filterValue !== '') {
-            $lexikUnitTranslations = $this->entityManager->getRepository(TransUnit::class)->findTranslationsUnitByFilterColumn($column, $filterValue, $columnType, $this->getManagedLocales());
-        } else {
-            $lexikUnitTranslations = $this->entityManager->getRepository(TransUnit::class)->getTransUnitList($this->getManagedLocales());
-        }
-
-        if (count($lexikUnitTranslations) > 0) {
-            return $this->render('@LexikTranslation/Translation/_ngGrid.html.twig', [
-                'locales' => $this->getManagedLocales(),
-                'lexikTranslations' => $lexikUnitTranslations
-            ]);
-        } else {
-            return $this->render('@LexikTranslation/Translation/noTranslations.html.twig');
-        }
-    }
-
     /**
      * Returns managed locales.
      *

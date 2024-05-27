@@ -47,3 +47,12 @@ table button.delete {
     text-decoration: none;
     color: gray !important;
 }
+
+.content div.actions {
+    display: flex;
+    gap: 5px;
+}
+
+.content div.action.action-button {
+    margin: 0;
+}

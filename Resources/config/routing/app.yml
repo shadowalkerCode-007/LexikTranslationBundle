@@ -17,18 +17,3 @@ lexik_translation_invalidate_cache:
     path:     /invalidate-cache
     defaults: { _controller: 'Lexik\Bundle\TranslationBundle\Controller\TranslationController::invalidateCacheAction' }
     methods:  [GET]
-
-save_updated_lexik_translations:
-    path: /save
-    defaults: { _controller: 'Lexik\Bundle\TranslationBundle\Controller\TranslationController::saveUpdates' }
-    methods: [GET, POST]
-
-load_lexik_translation_grid:
-    path: /grid/load
-    defaults: { _controller: 'Lexik\Bundle\TranslationBundle\Controller\TranslationController::loadTranslationGrid' }
-    methods: [GET, POST]
-
-filter_lexik_translations:
-    path: /grid/filter
-    defaults: { _controller: 'Lexik\Bundle\TranslationBundle\Controller\TranslationController::filterLexikTranslations' }
-    methods: [GET, POST]

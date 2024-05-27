@@ -1,64 +1,62 @@
-{% for lexikTranslation in lexikTranslations %}
-    <tr>
+<tr>
+    <td>
+        <span>{{ lexikTranslation.id }}</span>
+        <div on="editType">
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-link delete" style="display:none">
+                <i class="glyphicon glyphicon-remove text-danger"></i>
+            </button>
+        </div>
+    </td>
+    <td>
+        <span>{{ lexikTranslation.domain }}</span>
+        <div on="editType">
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-link delete" style="display:none">
+                <i class="glyphicon glyphicon-remove text-danger"></i>
+            </button>
+        </div>
+    </td>
+    <td>
+        <span>{{ lexikTranslation.key }}</span>
+        <div on="editType">
+        </div>
+        <div class="text-center">
+            <button id="btnKeyDelete-{{ lexikTranslation.id }}" onclick="deleteEntry({{ lexikTranslation.id }}, null, 'key')" type="button" class="btn btn-link delete" style="display:none">
+                <i class="glyphicon glyphicon-remove text-danger"></i>
+            </button>
+        </div>
+    </td>
+    {% for translation in lexikTranslation.translations %}
         <td>
-            <span>{{ lexikTranslation.id }}</span>
-            <div on="editType">
+            <span id="content-{{ lexikTranslation.id }}-{{ translation.locale }}">{{ translation.content }}</span>
+            <div>
+                <textarea id="inputContent-{{ lexikTranslation.id }}-{{ translation.locale }}" name="column.index" class="form-control" style="display: none">{{ translation.content }}</textarea>
             </div>
             <div class="text-center">
-                <button type="button" class="btn btn-link delete" style="display:none">
+                <button id="btnDelete-{{ lexikTranslation.id }}-{{ translation.locale }}" onclick="deleteEntry({{ lexikTranslation.id }}, '{{ translation.locale }}', 'translation')" type="button" class="btn btn-link delete" style="display: none">
                     <i class="glyphicon glyphicon-remove text-danger"></i>
                 </button>
             </div>
         </td>
-        <td>
-            <span>{{ lexikTranslation.domain }}</span>
-            <div on="editType">
-            </div>
-            <div class="text-center">
-                <button type="button" class="btn btn-link delete" style="display:none">
-                    <i class="glyphicon glyphicon-remove text-danger"></i>
-                </button>
-            </div>
-        </td>
-        <td>
-            <span>{{ lexikTranslation.key }}</span>
-            <div on="editType">
-            </div>
-            <div class="text-center">
-                <button id="btnKeyDelete-{{ lexikTranslation.id }}" onclick="deleteEntry({{ lexikTranslation.id }}, null, 'key')" type="button" class="btn btn-link delete" style="display:none">
-                    <i class="glyphicon glyphicon-remove text-danger"></i>
-                </button>
-            </div>
-        </td>
-        {% for translation in lexikTranslation.translations %}
-            <td>
-                <span id="content-{{ lexikTranslation.id }}-{{ translation.locale }}">{{ translation.content }}</span>
-                <div>
-                    <textarea id="inputContent-{{ lexikTranslation.id }}-{{ translation.locale }}" name="column.index" class="form-control" style="display: none">{{ translation.content }}</textarea>
-                </div>
-                <div class="text-center">
-                    <button id="btnDelete-{{ lexikTranslation.id }}-{{ translation.locale }}" onclick="deleteEntry({{ lexikTranslation.id }}, '{{ translation.locale }}', 'translation')" type="button" class="btn btn-link delete" style="display: none">
-                        <i class="glyphicon glyphicon-remove text-danger"></i>
-                    </button>
-                </div>
-            </td>
-        {% endfor %}
-        <td>
-            <div class="actions">
-                <button id="editButton-{{ lexikTranslation.id }}" onclick="enableMode('edit', {{ lexikTranslation.id }})" type="button" class="btn btn-primary btn-sm">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </button>
-                <button id="deleteButton-{{ lexikTranslation.id }}" onclick="enableMode('delete', {{ lexikTranslation.id }})" type="button" class="btn btn-danger btn-sm">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </button>
-                <button id="saveButton-{{ lexikTranslation.id }}" onclick="enableMode('view', {{ lexikTranslation.id }})" type="button" class="btn btn-success btn-sm" style="display: none">
-                    <span class="glyphicon glyphicon-saved"></span>
-                </button>
-                <button id="cancelButton-{{ lexikTranslation.id }}" onclick="enableMode('view', {{ lexikTranslation.id }})" type="button" class="btn btn-warning btn-sm" style="display: none">
-                    <span class="glyphicon glyphicon-ban-circle"></span>
-                </button>
-                <div></div>
-            </div>
-        </td>
-    </tr>
-{% endfor %}
+    {% endfor %}
+    <td>
+        <div class="actions">
+            <button id="editButton-{{ lexikTranslation.id }}" onclick="enableMode('edit', {{ lexikTranslation.id }})" type="button" class="btn btn-primary btn-sm">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+            <button id="deleteButton-{{ lexikTranslation.id }}" onclick="enableMode('delete', {{ lexikTranslation.id }})" type="button" class="btn btn-danger btn-sm">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+            <button id="saveButton-{{ lexikTranslation.id }}" onclick="enableMode('view', {{ lexikTranslation.id }})" type="button" class="btn btn-success btn-sm" style="display: none">
+                <span class="glyphicon glyphicon-saved"></span>
+            </button>
+            <button id="cancelButton-{{ lexikTranslation.id }}" onclick="enableMode('view', {{ lexikTranslation.id }})" type="button" class="btn btn-warning btn-sm" style="display: none">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+            </button>
+            <div></div>
+        </div>
+    </td>
+</tr>
