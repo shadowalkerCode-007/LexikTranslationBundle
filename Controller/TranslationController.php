@@ -2,9 +2,6 @@
 
 namespace Lexik\Bundle\TranslationBundle\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Lexik\Bundle\TranslationBundle\Entity\Translation;
-use Lexik\Bundle\TranslationBundle\Entity\TransUnit;
 use Lexik\Bundle\TranslationBundle\Form\Handler\TransUnitFormHandler;
 use Lexik\Bundle\TranslationBundle\Form\Type\TransUnitType;
 use Lexik\Bundle\TranslationBundle\Manager\LocaleManagerInterface;
@@ -15,7 +12,6 @@ use Lexik\Bundle\TranslationBundle\Util\Overview\StatsAggregator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -25,16 +21,7 @@ class TranslationController extends AbstractController
 {
     use CsrfCheckerTrait;
 
-    public function __construct(
-        private readonly StorageInterface $translationStorage,
-        private readonly StatsAggregator $statsAggregator,
-        private readonly TransUnitFormHandler $transUnitFormHandler,
-        private readonly Translator $lexikTranslator,
-        private readonly TranslatorInterface $translator,
-        private readonly LocaleManagerInterface $localeManager,
-        private readonly ?\Lexik\Bundle\TranslationBundle\Util\Profiler\TokenFinder $tokenFinder,
-        private readonly EntityManagerInterface $entityManager
-    )
+    public function __construct(private readonly StorageInterface $translationStorage, private readonly StatsAggregator $statsAggregator, private readonly TransUnitFormHandler $transUnitFormHandler, private readonly Translator $lexikTranslator, private readonly TranslatorInterface $translator, private readonly LocaleManagerInterface $localeManager, private readonly ?\Lexik\Bundle\TranslationBundle\Util\Profiler\TokenFinder $tokenFinder)
     {
     }
 
@@ -55,10 +42,10 @@ class TranslationController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function gridAction(Request $request)
+    public function gridAction()
     {
-        $translations = $this->entityManager->getRepository(TransUnit::class)->getTransUnitList($this->getManagedLocales());
-        $translationsCount = $this->entityManager->getRepository(TransUnit::class)->count();
+        $translations = $this->translationStorage->getTransUnitList($this->getManagedLocales());
+        $translationsCount = $this->translationStorage->countTransUnits();
 
         $tokens = null;
         if ($this->getParameter('lexik_translation.dev_tools.enable') && $this->tokenFinder !== null) {
@@ -72,7 +59,7 @@ class TranslationController extends AbstractController
             'toggleSimilar'  => $this->getParameter('lexik_translation.grid_toggle_similar'),
             'locales'        => $this->getManagedLocales(),
             'tokens'         => $tokens,
-            'lexikTranslations' => $translations,
+            'translations' => $translations,
             'page' => 1,
             'translationsCount' => $translationsCount
         ]);

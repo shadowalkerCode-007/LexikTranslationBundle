@@ -16,7 +16,7 @@
         {% endblock lexik_toolbar %}
 
         {% block lexik_data_grid %}
-            {% if lexikTranslations is empty %}
+            {% if translations is empty %}
                 <div class="alert alert-info" role="alert">
                     No Translations
                 </div>
@@ -64,7 +64,7 @@
                         <th></th>
                     </tr>
                 </table>
-                {% if lexikTranslations is not empty %}
+                {% if translations is not empty %}
                     <ul class="pagination ng-table-pagination pull-right">
                         <li>
                             <a class="prev disabled" onclick="changePage(({{ page }} - 1), {{ totalPagesRounded }})">&laquo;</a>
