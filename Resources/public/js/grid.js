@@ -421,7 +421,7 @@ function constructHtmlTr(item) {
             </td>
             ${Object.keys(item).filter(key => key !== '_id' && key !== '_domain' && key !== '_key').map(locale => `
             <td>
-                <span id="content-${item._id}-${locale}" class="locale">${item[locale]}</span>
+                <span id="content-${item._id}-${locale}" class="locale">${escapeHtml(item[locale])}</span>
                 <div>
                     <textarea id="inputContent-${item._id}-${locale}" name="column.index" class="form-control" style="display: none">${item[locale]}</textarea>
                 </div>
@@ -452,6 +452,16 @@ function constructHtmlTr(item) {
         </tr>`;
 
     return tr;
+}
+
+function escapeHtml(unsafe)
+{
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 function displayNoTranslations()
