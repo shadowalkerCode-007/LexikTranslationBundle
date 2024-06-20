@@ -21,6 +21,9 @@ function enableMode(mode, lexikTranslationId, locales, url, csrfToken) {
             document.getElementById('inputContent-' + lexikTranslationId + '-' + locales[i]).style.display = 'block';
         }
     } else if (mode == 'view') {
+
+        let update = false;
+
         editButton.style.display = 'block';
         deleteButton.style.display = 'block';
         saveButton.style.display = 'none';
@@ -30,13 +33,17 @@ function enableMode(mode, lexikTranslationId, locales, url, csrfToken) {
             var newValue = document.getElementById('inputContent-' + lexikTranslationId + '-' + locales[i]).value;
 
             if (oldValue !== newValue) {
-                saveUpdatedLexikTranslations(lexikTranslationId, locales[i], newValue, url, csrfToken);
+                update = true;
+                document.getElementById('content-' + lexikTranslationId + '-' + locales[i]).innerText = newValue;
             }
 
             document.getElementById('content-' + lexikTranslationId + '-' + locales[i]).style.display = 'block';
             document.getElementById('inputContent-' + lexikTranslationId + '-' + locales[i]).style.display = 'none';
             document.getElementById('btnDelete-' + lexikTranslationId + '-' + locales[i]).style.display = 'none';
             document.getElementById('btnKeyDelete-' + lexikTranslationId).style.display = 'none';
+        }
+        if (update) {
+            saveUpdatedLexikTranslations(lexikTranslationId, locales[i], url, csrfToken);
         }
     } else if (mode == 'delete') {
         editButton.style.display = 'none';
@@ -49,11 +56,9 @@ function enableMode(mode, lexikTranslationId, locales, url, csrfToken) {
     }
 }
 
-function saveUpdatedLexikTranslations(lexikTranslationId, locale, newValue, url, csrfToken) {
+function saveUpdatedLexikTranslations(lexikTranslationId, locale, url, csrfToken) {
     let params = [];
 
-    document.getElementById('inputContent-' + lexikTranslationId + '-' + locale).value = newValue;
-    document.getElementById('content-' + lexikTranslationId + '-' + locale).innerText = newValue;
     var saveButton = document.getElementById('saveButton-' + lexikTranslationId);
     var trElement = saveButton.closest('tr.content');
     var tdElements = trElement.querySelectorAll('td');
